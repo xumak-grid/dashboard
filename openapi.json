@@ -1,0 +1,1660 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "v1",
+    "title": "Bedrock API",
+    "description": "Bedrock api k8s"
+  },
+  "paths": {
+    "/clients": {
+      "get": {
+        "summary": "List all clients",
+        "tags": [
+          "clients"
+        ],
+        "responses": {
+          "200": {
+            "description": "all clients",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Client"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a client",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Client"
+              }
+            }
+          }
+        },
+        "tags": [
+          "clients"
+        ],
+        "responses": {
+          "201": {
+            "description": "client created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}": {
+      "get": {
+        "summary": "Info for an specific client",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "clients"
+        ],
+        "responses": {
+          "200": {
+            "description": "client status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an specific client",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "clients"
+        ],
+        "responses": {
+          "200": {
+            "description": "client deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Client"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments": {
+      "get": {
+        "summary": "List of environments for the client",
+        "description": "An environment only exist if a deployment exist inside the environment",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "environments"
+        ],
+        "responses": {
+          "200": {
+            "description": "all environments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Environment"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments/{environmentId}/aem": {
+      "get": {
+        "summary": "Info of the AEM deployment",
+        "description": "the clientId should be created previously",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "environments"
+        ],
+        "responses": {
+          "200": {
+            "description": "deployment status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AEMDeployment"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "create the AEM deployment",
+        "description": "the clientId should be created previously, the AEM deployment is created in the desired environmentId",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AEMDeployment"
+              }
+            }
+          }
+        },
+        "tags": [
+          "environments"
+        ],
+        "responses": {
+          "201": {
+            "description": "AEM deployment created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AEMDeployment"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update the AEM deployment",
+        "description": "the clientId and AEM deployment should be created previously",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AEMDeployment"
+              }
+            }
+          }
+        },
+        "tags": [
+          "environments"
+        ],
+        "responses": {
+          "200": {
+            "description": "deployment updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AEMDeployment"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an specific AEM deployment",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "environments"
+        ],
+        "responses": {
+          "200": {
+            "description": "deployment deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AEMDeployment"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments/{environmentId}/aem/instances": {
+      "get": {
+        "summary": "list of instances in an AEM deployment",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "environmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "environments"
+        ],
+        "responses": {
+          "200": {
+            "description": "list of instances",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Instance"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/artifactory": {
+      "post": {
+        "summary": "Create a artifact manager",
+        "description": "The clientId should be created previously, the artifactoryId is from the vendors artifactory list",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Artifactory"
+              }
+            }
+          }
+        },
+        "tags": [
+          "artifactory manager"
+        ],
+        "responses": {
+          "201": {
+            "description": "Artifact created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactorySpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/artifactory/{artifactoryId}": {
+      "get": {
+        "summary": "Get the artifact manager",
+        "description": "the clientId should be created previously, as well as the artifactoryId",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artifactoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "artifactory manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "artifact manager status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactoryGetSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete the artifact manager",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "artifactoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "artifactory manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "artifact manager deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactoryGetSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/scm": {
+      "post": {
+        "summary": "Create a source control manager",
+        "description": "The clientId should be created previously, the scmId is from the vendors source control manager list",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SCM"
+              }
+            }
+          }
+        },
+        "tags": [
+          "source control manager"
+        ],
+        "responses": {
+          "201": {
+            "description": "Source control manager created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SCMSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/scm/{scmId}": {
+      "get": {
+        "summary": "Get the source control manager",
+        "description": "the clientId should be created previously, as well as the scmId",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scmId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "source control manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "source control manager status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SCMGetSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete the source control manager",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "scmId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "source control manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "source control manager deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SCMGetSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/ci": {
+      "post": {
+        "summary": "Create a continuous integration manager",
+        "description": "The clientId should be created previously, the ciId is from the vendors continuous integration manager list",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CI"
+              }
+            }
+          }
+        },
+        "tags": [
+          "continuous integration manager"
+        ],
+        "responses": {
+          "201": {
+            "description": "Continuous integration manager created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CISpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/ci/{ciId}": {
+      "get": {
+        "summary": "Get the continuous integration manager",
+        "description": "the clientId should be created previously, as well as the ciId",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ciId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "continuous integration manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "continuous integration manager status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CIGetSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete the source control manager",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ciId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "continuous integration manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "continuous integration manager deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CIGetSpec"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/tools/toolbelt": {
+      "get": {
+        "summary": "Get info toolbelt box",
+        "tags": [
+          "tools"
+        ],
+        "responses": {
+          "200": {
+            "description": "toolbelt status"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create toolbelt box",
+        "tags": [
+          "tools"
+        ],
+        "responses": {
+          "201": {
+            "description": "toolblet created"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete toolbelt box",
+        "tags": [
+          "tools"
+        ],
+        "responses": {
+          "200": {
+            "description": "toolbelt deleted"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments/{environmentId}/aem/configmaps": {
+      "get": {
+        "summary": "List of all configMaps",
+        "tags": [
+          "configMaps"
+        ],
+        "responses": {
+          "200": {
+            "description": "All configMaps"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new configMap",
+        "tags": [
+          "configMaps"
+        ],
+        "responses": {
+          "201": {
+            "description": "configMap created"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments/{environmentId}/aem/configmaps/{mapID}": {
+      "get": {
+        "summary": "Get an specific configMap",
+        "tags": [
+          "configMaps"
+        ],
+        "responses": {
+          "200": {
+            "description": "configMap status"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an specific configMap",
+        "tags": [
+          "configMaps"
+        ],
+        "responses": {
+          "200": {
+            "description": "configMap updated"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an specific configMap",
+        "tags": [
+          "configMaps"
+        ],
+        "responses": {
+          "200": {
+            "description": "configMap deleted"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments/{environmentId}/aem/secrets": {
+      "get": {
+        "summary": "List of all deployment secrets",
+        "tags": [
+          "secrets"
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all secrets"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new secret",
+        "tags": [
+          "secrets"
+        ],
+        "responses": {
+          "201": {
+            "description": "secret created"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clients/{clientId}/environments/{environmentId}/aem/secrets/{secretID}": {
+      "get": {
+        "summary": "Get an specific secret",
+        "tags": [
+          "secrets"
+        ],
+        "responses": {
+          "200": {
+            "description": "secret status"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an specific secret",
+        "tags": [
+          "secrets"
+        ],
+        "responses": {
+          "200": {
+            "description": "secret updated"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an specific secret",
+        "tags": [
+          "secrets"
+        ],
+        "responses": {
+          "200": {
+            "description": "secret deleted"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors/artifactory/list": {
+      "get": {
+        "summary": "get all artifactory vendors available in the system",
+        "tags": [
+          "artifactory manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "list of artifactory vendors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtifactoryList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors/ci/list": {
+      "get": {
+        "summary": "get all CI vendors available in the system",
+        "tags": [
+          "continuous integration manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "list of CI vendors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CIList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vendors/scm/list": {
+      "get": {
+        "summary": "get all source control managers vendors available in the system",
+        "tags": [
+          "source control manager"
+        ],
+        "responses": {
+          "200": {
+            "description": "list of artifactory vendors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SCMList"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools": {
+      "get": {
+        "summary": "list of global tools",
+        "tags": [
+          "global tools"
+        ],
+        "responses": {
+          "200": {
+            "description": "list tools"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tools/prometheus": {
+      "get": {
+        "summary": "info global prometheus",
+        "tags": [
+          "global tools"
+        ],
+        "responses": {
+          "200": {
+            "description": "prometheus status"
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Environment": {
+        "properties": {
+          "environmentId": {
+            "type": "string"
+          }
+        }
+      },
+      "AEMDeployment": {
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "environmentId": {
+            "type": "string"
+          },
+          "spec": {
+            "$ref": "#/components/schemas/AEMDeploymentSpec"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "AEMDeploymentSpec": {
+        "properties": {
+          "authors": {
+            "$ref": "#/components/schemas/Config"
+          },
+          "publishers": {
+            "$ref": "#/components/schemas/Config"
+          },
+          "dispatchers": {
+            "$ref": "#/components/schemas/Config"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "Config": {
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "replicas": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "Instance": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "account": {
+            "type": "string"
+          },
+          "environment": {
+            "type": "string"
+          },
+          "runmode": {
+            "type": "string"
+          },
+          "running": {
+            "type": "boolean"
+          },
+          "ready": {
+            "type": "boolean"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Client": {
+        "required": [
+          "clientId"
+        ],
+        "properties": {
+          "clientId": {
+            "type": "string"
+          },
+          "meta": {
+            "type": "array",
+            "$ref": "#/components/schemas/Meta"
+          }
+        }
+      },
+      "ArtifactoryList": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ArtifactoryListImage"
+            }
+          }
+        }
+      },
+      "ArtifactoryListImage": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Artifactory": {
+        "properties": {
+          "projectName": {
+            "type": "string"
+          },
+          "artifactoryId": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "ArtifactorySpec": {
+        "properties": {
+          "artifactoryId": {
+            "type": "string"
+          },
+          "serverName": {
+            "type": "string"
+          },
+          "ingressName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          }
+        }
+      },
+      "ArtifactoryGetSpec": {
+        "properties": {
+          "artifactoryId": {
+            "type": "string"
+          },
+          "serverName": {
+            "type": "string"
+          },
+          "ingressName": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          }
+        }
+      },
+      "SCMList": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SCMListImage"
+            }
+          }
+        }
+      },
+      "SCMListImage": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SCM": {
+        "properties": {
+          "projectName": {
+            "type": "string"
+          },
+          "scmId": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      },
+      "SCMSpec": {
+        "properties": {
+          "scmId": {
+            "type": "string"
+          },
+          "serverName": {
+            "type": "string"
+          },
+          "ingressName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          }
+        }
+      },
+      "SCMGetSpec": {
+        "properties": {
+          "scmId": {
+            "type": "string"
+          },
+          "serverName": {
+            "type": "string"
+          },
+          "ingressName": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          }
+        }
+      },
+      "CIList": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CIListImage"
+            }
+          }
+        }
+      },
+      "CIListImage": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "secondary": {
+            "type": "string"
+          }
+        }
+      },
+      "CI": {
+        "properties": {
+          "projectName": {
+            "type": "string"
+          },
+          "ciId": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "secondImage": {
+            "type": "string"
+          },
+          "scmURL": {
+            "type": "string"
+          }
+        }
+      },
+      "CISpec": {
+        "properties": {
+          "ciId": {
+            "type": "string"
+          },
+          "serverName": {
+            "type": "string"
+          },
+          "ingressName": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string"
+          },
+          "secondImage": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "projectName": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          },
+          "scmURL": {
+            "type": "string"
+          }
+        }
+      },
+      "CIGetSpec": {
+        "properties": {
+          "ciId": {
+            "type": "string"
+          },
+          "serverName": {
+            "type": "string"
+          },
+          "ingressName": {
+            "type": "string"
+          },
+          "serviceName": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          },
+          "scmURL": {
+            "type": "string"
+          }
+        }
+      },
+      "Meta": {
+        "properties": {
+          "value1": {
+            "type": "string"
+          },
+          "value2": {
+            "type": "string"
+          },
+          "valueN": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "required": [
+          "code",
+          "msg"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "msg": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
